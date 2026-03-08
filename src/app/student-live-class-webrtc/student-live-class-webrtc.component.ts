@@ -1091,6 +1091,7 @@ ngAfterViewInit() {
     this.setupScrollListener();
   }, 500);
 }
+
 loadOlderMessages() {
   if (this.isLoadingOlderMessages) {
     console.log('⏳ Already loading older messages, skipping...');

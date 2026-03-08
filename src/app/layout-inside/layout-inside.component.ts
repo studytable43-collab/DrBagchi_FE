@@ -16,14 +16,14 @@ sidebarOpen = false;
   { name: 'Courses', icon: 'book', route: '/app/courses' },
   { name: 'My Courses', icon: 'users', route: '/app/mycourses' },
   { name: 'Payments', icon: 'credit-card', route: '/app/payments' },
-  { name: 'Quiz', icon: 'clipboard-check', route: '/app/quiz' },
+  { name: 'Tests', icon: 'clipboard-check', route: '/app/quiz' },
   // { name: 'Settings', icon: 'cog', route: '/settings' }
 ];
 
 
   
 
-
+StudentName = localStorage.getItem('Name') || 'User';
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
   }
@@ -47,6 +47,10 @@ ngOnInit() {
 
 logout() {
   console.log("Logging out...");
+  localStorage.clear(); // Clear all local storage data
+
+window.location.href = '/login'; // Redirect to login page
+
   // TODO: Add your logout logic here (clear tokens, redirect, etc.)
 }
 

@@ -32,6 +32,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import { CommonModule } from '@angular/common';
   import { NgModel } from '@angular/forms';
 import { StudentLiveClassWebrtcComponent } from './student-live-class-webrtc/student-live-class-webrtc.component';
+import { SubmittedquizComponent } from './submittedquiz/submittedquiz.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +55,7 @@ import { StudentLiveClassWebrtcComponent } from './student-live-class-webrtc/stu
     AssessmentComponent,
     OTPComponent,
     ClassroomComponent,
-    PaymentsComponent,StudentLiveClassWebrtcComponent
+    PaymentsComponent,StudentLiveClassWebrtcComponent, SubmittedquizComponent
       ],
   imports: [
     BrowserModule,

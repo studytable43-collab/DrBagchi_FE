@@ -102,6 +102,7 @@ ongoingQuizzes1 = [
   {
      
     this.selectedQuiz = quiz;
+     
     this.showInstructionsModal = true;
   }
 
@@ -112,7 +113,7 @@ ongoingQuizzes1 = [
 
   startQuiz(quizId: number,courseid:any)
   {
-debugger
+ 
 
     this.quizservice.startQuiz(quizId,courseid).subscribe({
       next: (response: any) =>

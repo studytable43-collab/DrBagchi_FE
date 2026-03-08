@@ -24,7 +24,6 @@ export class AssessmentComponent implements AfterViewInit {
   timerDisplay: any;
   violationsEl: any;
   timeLeft: string = '00:00:00';
-
 quizId:any;
 sessionId:any;
 constructor(private router: Router,private quizservice:QuizserviceService, private route: ActivatedRoute) 
@@ -34,7 +33,6 @@ constructor(private router: Router,private quizservice:QuizserviceService, priva
     this.quizId = params['quizid'];
     this.sessionId = params['sessionid'];
 
-     this.startServerTimer()
     console.log("Quiz ID:", this.quizId);
     console.log("Session ID:", this.sessionId);
     this.GetQuizData();
@@ -98,7 +96,6 @@ timerInterval: any;
 
   // stop timers
   clearInterval(this.timerInterval);
-  this.quizActive = false;
 
   const submittedAnswers = this.questions.map((q: any) => {
     return {
@@ -124,12 +121,15 @@ timerInterval: any;
     answers: submittedAnswers
   };
 
-  // ✅ PRINT FINAL RESULT IN CONSOLE
-  console.log('📤 Quiz Submitted Payload:', payload);
+   console.log('📤 Quiz Submitted Payload:', payload);
  
   this.quizservice.submitQuiz(payload).subscribe({
     next: (res: any) => {
+        this.quizActive = false;
+
       console.log('✅ Quiz submission success:', res);
+     // window.location.reload();
+     window.location.href = `/submittedquiz?quizId=${encodeURIComponent(this.quizId)}&sessionid=${this.sessionId}`;
     },
     error: (err: any) => {
       console.error('❌ Quiz submission failed:', err);
@@ -147,7 +147,8 @@ timerInterval: any;
 }
 
 
-  setupSecurity() {
+  setupSecurity()
+   {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) this.addViolation("Tab Switching Detected");
     });
@@ -167,13 +168,20 @@ timerInterval: any;
         this.addViolation("DevTools Detected");
       }
     }, 1000);
+         this.startServerTimer();
+
   }
 
   addViolation(reason: string) {
     this.violations++;
     this.violationsEl.textContent = this.violations;
 
-    if (this.violations >= 3) this.submitQuiz(false, true);
+    console.log(`Violation ${this.violations}: ${reason}`);
+    if (this.violations >= 3) 
+    {
+      //this.submitQuiz(false, true);
+    }
+      
     //else 
       //alert(`${reason} | Violation ${this.violations}/3`);
   }
@@ -201,7 +209,7 @@ timerInterval: any;
         console.error('Invalid server response for quiz timing');
         return;
       }
-
+      this.GetQuizData();
       // Parse server times
       this.serverEndTime = new Date(res.result.endTimeUTC);
       this.serverCurrentTime = new Date(res.result.serverTimeUTC);
@@ -251,7 +259,16 @@ syncWithServer()
   this.quizservice.syncQuizTime(this.sessionId, this.quizId).subscribe({
     next: (res: any) =>
       { 
-      if (res.result && res.result.endTimeUTC && res.result.serverTimeUTC) {
+        debugger
+        if(res.status == 404 && res.isTimeExpired )
+        {
+                    this.submitQuiz(true);
+          return;
+        }
+
+      if (res.result && res.result.endTimeUTC && res.result.serverTimeUTC) 
+      {
+
         const newServerEndTime = new Date(res.result.endTimeUTC);
         const nowUTC = new Date(res.result.serverTimeUTC);
 
@@ -261,8 +278,7 @@ syncWithServer()
 
         this.remainingSeconds = newRemaining;
 
-        console.log('Synced remaining seconds:', this.remainingSeconds);
-
+ 
         // Auto submit if server time is over
         if (this.remainingSeconds <= 0) 
           {
@@ -277,7 +293,9 @@ syncWithServer()
       console.error('Error syncing with server:', err);
     }
   });
-} 
+}
+
+
   isCorrect(option: string, question: any)
    {
     
@@ -291,7 +309,7 @@ GetQuizData()
   this.quizservice.GetQuizData(this.quizId,this.sessionId).subscribe(
     {
     next: (res: any) =>
-       {debugger
+       { 
 
         if(res.status != 200)
         {

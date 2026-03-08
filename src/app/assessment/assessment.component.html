@@ -1,231 +1,273 @@
-<div
-  class="min-h-screen w-full bg-gradient-to-br from-slate-100 via-white to-sky-100
-         text-slate-800 flex flex-col items-center px-3 sm:px-4 py-6 sm:py-10">
+<div class="min-h-screen w-full bg-gradient-to-br from-purple-50 via-white to-purple-100 text-slate-800 flex flex-col">
 
-  <!-- STATUS BAR -->
-  <div class="w-full max-w-5xl flex justify-center mb-4">
-    <div
-      class="w-full flex flex-wrap items-center justify-between gap-3
-             rounded-2xl border border-sky-300 bg-white/80
-             backdrop-blur-xl px-4 sm:px-6 py-3 shadow-md">
+  <!-- TOP SECURITY BAR -->
+  <div class="w-full border-b border-purple-200 bg-white/80 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+
       <div class="flex items-center gap-2 text-sm">
-        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="font-semibold tracking-[0.2em] uppercase text-[11px] text-sky-700">
+        <span class="h-2 w-2 rounded-full bg-purple-500 animate-pulse"></span>
+
+        <span class="uppercase tracking-[0.2em] text-xs text-purple-700 font-semibold">
           Violations
         </span>
-        <span class="text-base font-bold text-emerald-600" id="violations">0</span>
+
+        <span class="text-purple-600 font-bold text-base" id="violations">
+          0
+        </span>
       </div>
 
-      <div
-        id="securityStatus"
-        class="inline-flex items-center gap-2 rounded-full border border-emerald-400
-               bg-emerald-100 px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-semibold
-               tracking-[0.25em] text-emerald-700 uppercase shadow-sm">
-        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-ping"></span>
-        <span>Secure Mode</span>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-400 bg-purple-100 text-purple-700 text-xs font-semibold tracking-widest uppercase">
+
+        <span class="h-2 w-2 rounded-full bg-purple-600 animate-ping"></span>
+
+        Secure Mode
+
       </div>
+
     </div>
   </div>
 
   <!-- TITLE -->
-  <div class="w-full max-w-5xl text-center mb-5">
-    <h1 class="text-2xl sm:text-3xl font-bold text-sky-800">
-      Ultra-Secure Quiz System
+  <div class="max-w-6xl mx-auto text-center px-4 pt-8 pb-6">
+
+    <h1 class="text-3xl font-bold text-purple-800">
+      Ultra-Secure Test System
     </h1>
-    <p class="mt-1 text-sm sm:text-base text-slate-600">
-      Runs inside enhanced secure exam environment.
-      <button id="startQuizBtn" (click)="startQuiz()" class="ml-2 text-sky-700 underline">
-        Start Secure Quiz
-      </button>
+
+    <p class="text-slate-600 mt-1">
+      Runs inside enhanced secure exam environment
     </p>
+
   </div>
 
   <!-- START SCREEN -->
-  <div
-    id="startScreen"
-    *ngIf="!quizActive"
-    class="w-full max-w-xl bg-white border border-slate-300 rounded-3xl
-           shadow-xl backdrop-blur-xl px-6 sm:px-8 py-8 space-y-6 mx-auto">
+  <div *ngIf="!quizActive" class="flex justify-center px-4">
 
-    <h2 class="text-center text-xl font-semibold text-sky-800">Security Protocol Active</h2>
+    <div class="w-full max-w-xl bg-white border border-purple-200 rounded-3xl shadow-xl p-8">
 
-    <ul class="text-slate-700 space-y-1 text-sm">
-      <li>• Fullscreen required</li>
-      <li>• Tab switching disabled</li>
-      <li>• Right-click blocked</li>
-      <li>• Clipboard & DevTools restricted</li>
-      <li class="text-red-600">⚠ Violations will auto-submit the quiz!</li>
-    </ul>
+      <h2 class="text-xl font-semibold text-purple-800 text-center mb-6">
+        Security Protocol Active
+      </h2>
 
-    <div class="text-center mt-6">
-      <button
-        (click)="startQuiz()"
-        class="px-8 py-3 rounded-full bg-sky-600 text-white font-semibold shadow-md">
-        Start Secure Quiz
-      </button>
-    </div>
-  </div>
+      <ul class="space-y-2 text-slate-700 text-sm sm:text-base">
 
-  <!-- ACTIVE QUIZ -->
-<div
-  *ngIf="quizActive"
-  class="fixed inset-0 z-50 flex flex-col bg-slate-950/90 backdrop-blur-xl">
+        <li>• Fullscreen required</li>
 
-  <!-- TOP BAR -->
-  <header class="w-full flex justify-center border-b border-slate-800 bg-slate-950/95">
-    <div class="w-full max-w-6xl flex items-center justify-between px-4 md:px-6 py-3">
-      <div>
-        <p class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sky-400">
-          JEE Advanced Practice
-        </p>
-        <p class="text-sm text-slate-200 mt-1">
-          Ultra-Secure Mode Enabled
-        </p>
+        <li>• Tab switching disabled</li>
+
+        <li>• Right-click blocked</li>
+
+        <li>• Clipboard & DevTools restricted</li>
+
+        <li class="text-red-600 font-medium flex gap-2">
+          ⚠ Violations will auto-submit the quiz
+        </li>
+
+      </ul>
+
+      <div class="flex justify-center mt-8">
+
+        <button
+          (click)="startQuiz()"
+          class="px-10 py-3 rounded-full bg-purple-600 text-white font-semibold shadow-md hover:bg-purple-700 transition">
+
+          Start Secure Test
+
+        </button>
+
       </div>
 
-      <div
-        class="px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/40
-               text-xs sm:text-sm font-medium text-emerald-200 shadow flex items-center gap-2">
-        <span class="text-lg">⏱</span>
-        <span>Time Left: {{ timerDisplay }}</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN CONTENT (FIXED SCROLL!) -->
-  <main class="flex-1 min-h-0 overflow-y-auto flex justify-center bg-slate-950/80">
-    <section class="w-full max-w-6xl px-4 sm:px-6 py-6 space-y-10">
-
-      <form>
-
-        <!-- QUESTIONS LIST -->
-        <!-- QUESTIONS LIST -->
-<article
-  *ngFor="let q of questions; index as i"
-  class="w-full bg-slate-900/90 rounded-2xl shadow-xl mb-10">
-
-  <!-- HEADER -->
-  <header class="px-5 py-4 bg-slate-950/90 border-b border-slate-800">
-    <p class="text-lg sm:text-xl font-semibold text-slate-100">
-      Q{{ i + 1 }}. {{ q.QuestionText }}
-    </p>
-  </header>
-
-  <!-- BODY -->
-  <div class="px-5 py-6 space-y-6">
-
-    <!-- IMAGES CLEAN — NO BORDER -->
-    <div
-      *ngIf="q.ImagePaths?.length"
-      class="w-full flex justify-center">
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full">
-        <div
-          *ngFor="let img of q.ImagePaths"
-          class="w-full bg-white rounded-xl overflow-hidden p-4 shadow-md">
-
-          <img [src]="img" class="w-full h-full object-contain" />
-        </div>
-      </div>
-    </div>
-
-    <!-- MCQ -->
-    <div *ngIf="q.QuestionType === 'MCQ'" class="space-y-3">
-      <label
-        *ngFor="let opt of q.uiOptions"
-        class="flex items-start gap-3 px-4 py-3 rounded-xl
-               border border-slate-700 bg-slate-900/70 cursor-pointer select-none">
-
-        <input
-          type="radio"
-          [name]="'q' + q.QuestionId"
-          [value]="opt.key"
-          [(ngModel)]="q.selectedAnswer"
-          [ngModelOptions]="{standalone: true}"
-          class="h-5 w-5 text-sky-400 bg-slate-900 border-slate-600" />
-
-        <span class="text-slate-100 text-base">{{ opt.text }}</span>
-      </label>
-    </div>
-
-    <!-- MSQ -->
-    <div *ngIf="q.QuestionType === 'MSQ'" class="space-y-3">
-      <label
-        *ngFor="let opt of q.uiOptions"
-        class="flex items-start gap-3 px-4 py-3 rounded-xl
-               border border-slate-700 bg-slate-900/70 cursor-pointer select-none">
-
-        <input
-          type="checkbox"
-          [checked]="q.selectedAnswer.includes(opt.key)"
-          (change)="toggleMSQ(q, opt.key)"
-          class="h-5 w-5 text-sky-400 bg-slate-900 border-slate-600" />
-
-        <span class="text-slate-100 text-base">{{ opt.text }}</span>
-      </label>
-    </div>
-
-    <!-- NUM -->
-    <div *ngIf="q.QuestionType === 'NUM'">
-      <input
-        type="text"
-        [(ngModel)]="q.selectedAnswer"
-        [ngModelOptions]="{standalone: true}"
-        class="w-full px-5 py-4 text-base rounded-xl border border-sky-400/60
-               bg-slate-900/80 text-slate-100 focus:ring-2 focus:ring-sky-400"
-        placeholder="Enter numerical answer" />
     </div>
 
   </div>
 
-</article>
+  <!-- ACTIVE QUIZ -->
+  <div *ngIf="quizActive" class="fixed inset-0 z-50 flex flex-col bg-slate-950">
 
+    <!-- QUIZ HEADER -->
+    <header class="border-b border-purple-900/40 bg-slate-950">
 
-        <!-- SUBMIT BUTTON -->
-        <div class="flex justify-center pt-6 pb-10">
-          <button
-            (click)="submitQuiz()"
-            type="button"
-            class="px-12 py-3 rounded-full bg-violet-600 text-white font-semibold
-                   shadow-lg shadow-violet-500/40">
-            Submit Quiz
-          </button>
+      <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+
+        <div>
+
+          <p class="text-xs tracking-widest uppercase text-purple-400">
+            JEE Advanced Practice
+          </p>
+
+          <p class="text-slate-300 text-sm mt-1">
+            Ultra Secure Mode Enabled
+          </p>
+
         </div>
 
-      </form>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-400/40 text-purple-200 text-sm">
 
-    </section>
-  </main>
+          ⏱ Time Left: {{ timerDisplay }}
 
-  <!-- IMAGE ZOOM -->
-  <div
-    *ngIf="activeImage"
-    class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="relative max-w-5xl w-full">
-      <button
-        type="button"
-        (click)="activeImage = null"
-        class="absolute top-3 right-3 bg-black/70 text-white h-9 w-9 rounded-full
-               flex items-center justify-center text-xl">
-        ✕
-      </button>
+        </div>
 
-      <div class="bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden">
-        <img [src]="activeImage" class="w-full h-full object-contain p-4" />
       </div>
+
+    </header>
+
+    <!-- QUESTIONS AREA -->
+    <main class="flex-1 overflow-y-auto flex justify-center bg-slate-950">
+
+      <section class="w-full max-w-5xl px-4 py-8">
+
+        <form class="space-y-10">
+
+          <!-- QUESTION -->
+          <article
+            *ngFor="let q of questions; index as i"
+            class="bg-slate-900 rounded-2xl shadow-xl">
+
+            <!-- QUESTION HEADER -->
+            <div class="px-6 py-4 border-b border-purple-800/30">
+
+              <p class="text-lg font-semibold text-slate-100">
+
+                Q{{ i + 1 }}. {{ q.QuestionText }}
+
+              </p>
+
+            </div>
+
+            <!-- QUESTION BODY -->
+            <div class="px-6 py-6 space-y-6">
+
+              <!-- IMAGES -->
+              <div *ngIf="q.ImagePaths?.length" class="flex justify-center">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+
+                  <div
+                    *ngFor="let img of q.ImagePaths"
+                    class="bg-white rounded-xl p-4 shadow-md">
+
+                    <img [src]="img" class="w-full object-contain" />
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- MCQ -->
+              <div *ngIf="q.QuestionType === 'MCQ'" class="space-y-3">
+
+                <label
+                  *ngFor="let opt of q.uiOptions"
+                  class="flex items-start gap-3 px-4 py-3 rounded-xl border border-purple-700/40 bg-slate-900 cursor-pointer hover:bg-purple-900/30 transition">
+
+                  <input
+                    type="radio"
+                    [name]="'q' + q.QuestionId"
+                    [value]="opt.key"
+                    [(ngModel)]="q.selectedAnswer"
+                    [ngModelOptions]="{standalone: true}"
+                    class="h-5 w-5 text-purple-400 border-purple-600" />
+
+                  <span class="text-slate-100">{{ opt.text }}</span>
+
+                </label>
+
+              </div>
+
+              <!-- MSQ -->
+              <div *ngIf="q.QuestionType === 'MSQ'" class="space-y-3">
+
+                <label
+                  *ngFor="let opt of q.uiOptions"
+                  class="flex items-start gap-3 px-4 py-3 rounded-xl border border-purple-700/40 bg-slate-900 cursor-pointer hover:bg-purple-900/30 transition">
+
+                  <input
+                    type="checkbox"
+                    [checked]="q.selectedAnswer.includes(opt.key)"
+                    (change)="toggleMSQ(q, opt.key)"
+                    class="h-5 w-5 text-purple-400 border-purple-600" />
+
+                  <span class="text-slate-100">{{ opt.text }}</span>
+
+                </label>
+
+              </div>
+
+              <!-- NUMERIC -->
+              <div *ngIf="q.QuestionType === 'NUM'">
+
+                <input
+                  type="text"
+                  [(ngModel)]="q.selectedAnswer"
+                  [ngModelOptions]="{standalone:true}"
+                  class="w-full px-5 py-4 rounded-xl border border-purple-400 bg-slate-900 text-slate-100 focus:ring-2 focus:ring-purple-400"
+                  placeholder="Enter numerical answer">
+
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- SUBMIT -->
+          <div class="flex justify-center pt-8">
+
+            <button
+              (click)="submitQuiz()"
+              type="button"
+              class="px-14 py-3 rounded-full bg-purple-600 text-white font-semibold shadow-lg hover:bg-purple-700 transition">
+
+              Submit Quiz
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </main>
+
+    <!-- IMAGE ZOOM -->
+    <div *ngIf="activeImage"
+         class="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-6">
+
+      <div class="relative max-w-5xl w-full">
+
+        <button
+          (click)="activeImage=null"
+          class="absolute top-3 right-3 bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center text-xl">
+
+          ✕
+
+        </button>
+
+        <div class="bg-slate-900 rounded-2xl border border-purple-700">
+
+          <img [src]="activeImage" class="w-full object-contain p-4">
+
+        </div>
+
+      </div>
+
     </div>
+
+    <!-- STATUS POPUP -->
+    <div *ngIf="showpopup"
+         class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+      <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-[90%]">
+
+        <p class="text-purple-800 font-semibold text-center">
+          {{quizstatus}}
+        </p>
+
+      </div>
+
+    </div>
+
   </div>
-
-
-
- <div *ngIf="showpopup"
-     class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-
-  <div class="relative w-[90%] max-w-md bg-white rounded-2xl shadow-2xl p-6 animate-fadeIn scale-100">
-      <p>{{quizstatus}}</p>
-  </div> 
-</div> 
-
-</div>
 
 </div>

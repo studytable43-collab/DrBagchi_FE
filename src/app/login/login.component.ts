@@ -57,12 +57,13 @@ export class LoginComponent {
               );
               return;
             }
-
-            this.showToast('success', 'Welcome!', 'Success');
+ 
+         
             window.localStorage.setItem("token", response.result.token);
             window.localStorage.setItem("userid", response.result.UserId);
             window.localStorage.setItem("Name", response.result.FullName);
             window.localStorage.setItem("Email", response.result.Email);
+               this.showToast('success', `Welcome ${response.result.FullName}!`, '');
             this.router.navigate(['/app/dashboard']);
           }
           else if (response.status == 401) {
