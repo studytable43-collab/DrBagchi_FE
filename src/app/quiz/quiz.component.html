@@ -185,35 +185,44 @@ Attend Now
             <th class="px-6 py-3 text-left">Status</th>
           </tr>
         </thead>
+<tbody class="divide-y">
 
-        <tbody class="divide-y">
+  <ng-container *ngIf="pastQuizzes && pastQuizzes.length > 0; else noQuizzes">
+    <tr *ngFor="let quiz of pastQuizzes" class="hover:bg-gray-50 transition">
 
-          <tr *ngFor="let quiz of pastQuizzes"
-              class="hover:bg-gray-50 transition">
+      <td class="px-6 py-4">{{ quiz.title }}</td>
+      <td class="px-6 py-4">{{ quiz.batch }}</td>
+      <td class="px-6 py-4">{{ ISTString(quiz.date) }}</td>
 
-            <td class="px-6 py-4">{{ quiz.title }}</td>
-            <td class="px-6 py-4">{{ quiz.batch }}</td>
-            <td class="px-6 py-4">{{ ISTString(quiz.date) }}</td>
+      <td class="px-6 py-4 font-semibold text-indigo-700">
+        {{ quiz.score !== '-' ? quiz.score : '—' }}
+      </td>
 
-            <td class="px-6 py-4 font-semibold text-indigo-700">
-              {{ quiz.score !== '-' ? quiz.score : '—' }}
-            </td>
+      <td class="px-6 py-4">
+        <span *ngIf="quiz.status==='Attended'"
+              class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
+          Attended
+        </span>
 
-            <td class="px-6 py-4">
-              <span *ngIf="quiz.status==='Attended'"
-                    class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
-                Attended
-              </span>
+        <span *ngIf="quiz.status==='Missed'"
+              class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">
+          Missed
+        </span>
+      </td>
 
-              <span *ngIf="quiz.status==='Missed'"
-                    class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">
-                Missed
-              </span>
-            </td>
+    </tr>
+  </ng-container>
 
-          </tr>
+  <!-- Template for no quizzes -->
+  <ng-template #noQuizzes>
+    <tr>
+      <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+        No quiz history found
+      </td>
+    </tr>
+  </ng-template>
 
-        </tbody>
+</tbody>
 
       </table>
 

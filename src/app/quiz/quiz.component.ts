@@ -55,38 +55,38 @@ ongoingQuizzes1 = [
     }
   ];
 
-  pastQuizzes = [
-    {
-      id: 3,
-      title: 'Array Fundamentals',
-      subject: 'Java',
-      date: '2025-10-19T08:00:00+05:30',
-      batch: 'Morning',
-      status: 'Attended',
-      score: '80%',
-      link: '/quiz/3/result'
-    },
-    {
-      id: 4,
-      title: 'Constructor Theory',
-      subject: 'Java',
-      date: '2025-10-18T08:00:00+05:30',
-      batch: 'Evening',
-      status: 'Missed',
-      score: '-',
-      link: ''
-    }
-  ];
+  pastQuizzes:any = [
+  //   {
+  //     id: 3,
+  //     title: 'Array Fundamentals',
+  //     subject: 'Java',
+  //     date: '2025-10-19T08:00:00+05:30',
+  //     batch: 'Morning',
+  //     status: 'Attended',
+  //     score: '80%',
+  //     link: '/quiz/3/result'
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Constructor Theory',
+  //     subject: 'Java',
+  //     date: '2025-10-18T08:00:00+05:30',
+  //     batch: 'Evening',
+  //     status: 'Missed',
+  //     score: '-',
+  //     link: ''
+  //   }
+  // ];
 
-  upcomingQuizzes1 = [
-    {
-      id: 5,
-      title: 'Inheritance Deep Dive',
-      subject: 'Java',
-      batch: 'Morning',
-      scheduledTime: '2025-10-24T08:00:00+05:30',
-      status: 'Scheduled'
-    }
+  // upcomingQuizzes1 = [
+  //   {
+  //     id: 5,
+  //     title: 'Inheritance Deep Dive',
+  //     subject: 'Java',
+  //     batch: 'Morning',
+  //     scheduledTime: '2025-10-24T08:00:00+05:30',
+  //     status: 'Scheduled'
+  //   }
   ];
 
   // Modal controls and data

@@ -20,19 +20,21 @@
           with expert guidance designed for serious learners.
         </p>
 
-        <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+   <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+  
+  <button 
+    (click)="goToSignup()"
+    class="px-8 py-3 text-sm font-semibold cursor-pointer text-white bg-purple-700 rounded-md hover:bg-purple-800 transition duration-200 shadow-sm">
+    Get Started
+  </button>
 
-          <button
-            class="px-8 py-3 text-sm font-semibold text-white bg-purple-700 rounded-md hover:bg-purple-800 transition duration-200 shadow-sm">
-            Get Started
-          </button>
+  <button 
+    (click)="goToSignup()"
+    class="px-8 py-3 text-sm font-semibold text-purple-700 border border-purple-700 rounded-md hover:bg-purple-50 transition duration-200">
+    Explore Courses
+  </button>
 
-          <button
-            class="px-8 py-3 text-sm font-semibold text-purple-700 border border-purple-700 rounded-md hover:bg-purple-50 transition duration-200">
-            Explore Courses
-          </button>
-
-        </div>
+</div>
 
       </div>
 

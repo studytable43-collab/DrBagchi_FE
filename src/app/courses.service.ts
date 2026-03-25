@@ -225,8 +225,7 @@ verifyPayment_fixed(payload: any)
 }
 
 //GetMyCourses
-
-GetMyCourses( )
+ GetMyCourses( )
 {  
  const token = localStorage.getItem('token'); // Or wherever you store your token
  

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-
+import { StudentserviceService } from '../studentservice.service';
+import { CoursesService } from '../courses.service';
+ 
 @Component({
   selector: 'app-dashbaord',
   standalone: false,
@@ -9,6 +11,10 @@ import { Component } from '@angular/core';
 export class DashbaordComponent
  {
 
+  constructor(private studentservice:StudentserviceService,private coursesservice:CoursesService)
+  {
+    this.GetDashboard()
+  }
   user = {
     name: 'Student Name',
     email: '[email protected]',
@@ -19,49 +25,7 @@ export class DashbaordComponent
     { message: 'Biology Class scheduled for tomorrow', type: 'info' },
     { message: 'Payment received for Course #BIO101', type: 'success' },
   ];
-
-  enrolledCourses = [
-    {
-      id: 1,
-      name: 'NEET Biology 2026',
-      thumbnail: 'https://via.placeholder.com/150',
-      attendedThisMonth: 6,
-      conductedThisMonth: 8,
-      daysLeft: 5,
-      nextClass: {
-        title: 'Human Physiology - Revision',
-        date: '18 Feb 2026',
-        time: '6:00 PM'
-      }
-    },
-    {
-      id: 2,
-      name: 'Physics Crash Course',
-      thumbnail: 'https://via.placeholder.com/150',
-      attendedThisMonth: 4,
-      conductedThisMonth: 6,
-      daysLeft: 25,
-      nextClass: {
-        title: 'Thermodynamics Concepts',
-        date: '19 Feb 2026',
-        time: '5:00 PM'
-      }
-    },
-    {
-      id: 3,
-      name: 'Organic Chemistry Mastery',
-      thumbnail: 'https://via.placeholder.com/150',
-      attendedThisMonth: 3,
-      conductedThisMonth: 5,
-      daysLeft: 3,
-      nextClass: {
-        title: 'Hydrocarbons Advanced',
-        date: '20 Feb 2026',
-        time: '7:00 PM'
-      }
-    }
-  ];
-
+ 
  
 
   availableCourses = [
@@ -69,29 +33,7 @@ export class DashbaordComponent
     { name: 'English Grammar', price: 399 }
   ];
 
-  upcomingClasses = [
-    {
-      course: 'NEET Biology 2026',
-      title: 'Human Physiology - Revision',
-      date: '18 Feb 2026',
-      time: '6:00 PM',
-      duration: 90
-    },
-    {
-      course: 'Physics Crash Course',
-      title: 'Thermodynamics Concepts',
-      date: '19 Feb 2026',
-      time: '5:00 PM',
-      duration: 60
-    },
-    {
-      course: 'Organic Chemistry Mastery',
-      title: 'Hydrocarbons Advanced',
-      date: '20 Feb 2026',
-      time: '7:00 PM',
-      duration: 75
-    }
-  ];
+  upcomingClasses:any =[ ];
 
     // ================= EXPIRING COURSES =================
   expiringCourses :any= [];
@@ -111,7 +53,7 @@ export class DashbaordComponent
   }
 
     calculateExpiringCourses() {
-    this.expiringCourses = this.enrolledCourses.filter(c => c.daysLeft <= 7);
+    this.expiringCourses = this.enrolledCourses.filter((c:any) => c.daysLeft <= 7);
   }
 
   // ================= CALCULATE AVERAGE ATTENDANCE =================
@@ -120,7 +62,7 @@ export class DashbaordComponent
     let totalAttended = 0;
     let totalCourses = this.enrolledCourses.length;
 
-    this.enrolledCourses.forEach(c => {
+    this.enrolledCourses.forEach((c:any) => {
       totalAttended += c.attendedThisMonth;
     });
 
@@ -129,5 +71,58 @@ export class DashbaordComponent
         ? Math.round(totalAttended / totalCourses)
         : 0;
   }
+
+Dashboarddata:any = [];
+GetDashboard() {
+  try {
+    this.studentservice.getdashboarddata().subscribe({
+      next: (response: any) => {
+        this.Dashboarddata = response.result
+  
+          this.getAllCourses();
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    });
+  } catch (error: any) {
+    console.error(error);
+  }
+}
+ 
+enrolledCourses:any = [];
+
+getAllCourses() {
+  this.coursesservice.getAllCourses().subscribe({
+    next: (response: any) =>
+     {
+      let courses = response.result;
+       
+      const enrolledIds = new Set(this.Dashboarddata.enrollments.map((e: any) => e.courseId));
+
+    this.enrolledCourses = response.result.filter((x: any) =>  enrolledIds.has(x.CourseId));
+           if(this.enrolledCourses.length > 0)
+          {
+      this.enrolledCourses = response.result.map((x: any) => {
+  const desc = JSON.parse(x.Description);
+
+  return {
+    ...x,
+    shortDescription: desc.ShortDescription
+  };
+});
+
+          }
+
+
+          debugger
+
+      console.log(response);
+    },
+    error: (error: any) => {
+      console.error('API Error:', error);
+    }
+  });
+}
 
 }
