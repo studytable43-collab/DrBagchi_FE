@@ -73,12 +73,14 @@ export class DashbaordComponent
   }
 
 Dashboarddata:any = [];
+
+
 GetDashboard() {
   try {
     this.studentservice.getdashboarddata().subscribe({
       next: (response: any) => {
         this.Dashboarddata = response.result
-  
+        this.upcomingClasses = this.Dashboarddata.todaySessions;
           this.getAllCourses();
       },
       error: (error: any) => {
@@ -115,8 +117,7 @@ getAllCourses() {
           }
 
 
-          debugger
-
+ 
       console.log(response);
     },
     error: (error: any) => {

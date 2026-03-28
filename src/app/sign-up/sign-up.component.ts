@@ -364,6 +364,7 @@ verifyEmail(email: string): boolean {
 
 ValidateFormFields(): number 
 {
+  debugger
   let form = this.signupForm;
   this.errorMessages = {}; // reset previous errors
   let hasError = 0;
@@ -425,10 +426,10 @@ ValidateFormFields(): number
     hasError = 1;
   }
 
- if (!this.signupForm.get('profileImage')?.valid && !this.IsEditing ) {
-      this.errorMessages['profileImage'] = 'Profile Image is required!';
-      hasError = 1;
-    }
+//  if (!this.signupForm.get('profileImage')?.valid && !this.IsEditing ) {
+//       this.errorMessages['profileImage'] = 'Profile Image is required!';
+//       hasError = 1;
+//     }
 
 
   // Address
