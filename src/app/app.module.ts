@@ -23,8 +23,7 @@ import { InsideCoursesComponent } from './inside-courses/inside-courses.componen
 import { InsideCourseDetailsComponent } from './inside-course-details/inside-course-details.component';
 import { MyCoursesComponent } from './my-courses/my-courses.component';
 import { QuizComponent } from './quiz/quiz.component';
-import { AssessmentComponent } from './assessment/assessment.component';
-import { OTPComponent } from './otp/otp.component';
+ import { OTPComponent } from './otp/otp.component';
 import { ClassroomComponent } from './classroom/classroom.component';
 import { MyCoursesService } from './my-courses.service';
 import { CoursesService } from './courses.service';
@@ -33,6 +32,7 @@ import { CommonModule } from '@angular/common';
   import { NgModel } from '@angular/forms';
 import { StudentLiveClassWebrtcComponent } from './student-live-class-webrtc/student-live-class-webrtc.component';
 import { SubmittedquizComponent } from './submittedquiz/submittedquiz.component';
+import { AssessmentComponent } from './assessment/assessment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,14 +52,13 @@ import { SubmittedquizComponent } from './submittedquiz/submittedquiz.component'
     InsideCourseDetailsComponent,
     MyCoursesComponent,
     QuizComponent,
-    AssessmentComponent,
-    OTPComponent,
+     OTPComponent,
     ClassroomComponent,
-    PaymentsComponent,StudentLiveClassWebrtcComponent, SubmittedquizComponent
+    PaymentsComponent,StudentLiveClassWebrtcComponent, SubmittedquizComponent,AssessmentComponent
       ],
   imports: [
     BrowserModule,
-    AppRoutingModule,FormsModule,ReactiveFormsModule,HttpClientModule, BrowserAnimationsModule, CommonModule,  ToastrModule.forRoot({
+    AppRoutingModule,FormsModule,ReactiveFormsModule,HttpClientModule, FormsModule   ,BrowserAnimationsModule, CommonModule,FormsModule,  ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',
       progressBar: true,

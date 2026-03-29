@@ -102,6 +102,24 @@ let params = new HttpParams()
 
 SubmitSignUp(formData:any)
 {
+
+
+    const token = localStorage.getItem('token'); // Or wherever you store your token
+
+    if(!token)
+    {
+const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  }); 
+  const unique = Math.random(); 
+  return this.http.post<any>(`${this.baseurl}api/guest/SubmitSignup?_=${unique}`,formData,{
+ headers,   withCredentials :false
+   })
+ 
+    }
+
+
+
   const unique = Math.random(); 
   return this.http.post<any>(`${this.baseurl}api/guest/SubmitSignup?_=${unique}`,formData,{
     withCredentials :true
@@ -241,6 +259,7 @@ VerifyEmailOTP(Email: any, purpose: string, otp: string)
   );
 }
 
+ 
 
 
 }

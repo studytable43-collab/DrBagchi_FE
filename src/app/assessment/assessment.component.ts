@@ -1,8 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizserviceService } from '../quizservice.service';
-import { error } from 'console';
-
+  
 @Component({
   selector: 'app-assessment',
   standalone: false,

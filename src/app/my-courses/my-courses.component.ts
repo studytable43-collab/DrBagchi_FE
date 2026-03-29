@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MyCoursesComponent { 
   classannouncement:any = []; 
+  Liveclasshistroy:any = [];
 constructor(private mycourses:MyCoursesService,private router:Router,private Courses:CoursesService) 
 {
  
@@ -95,9 +96,11 @@ console.log("DI Debug →", {
   // When user clicks a course card
   continueLearning(course: any) 
   {
-    this.selectedCourse =this. enrolledCourses[0] ;//course;
+    debugger
+    this.selectedCourse = course//this. enrolledCourses[0] ;//course;
     this.view = 'course';
       this.getCourseById(course.courseId);
+      this.GetClassesConductedHistory(this.selectedCourse.courseId,this.selectedCourse.batchId);
   }
 
 
@@ -218,5 +221,68 @@ JoinLiveSession(data: any)
 }
 
 
+GetClassesConductedHistory(courseid:any,batchid:any)
+{
+   this.mycourses.GetClassesConductedHistory(courseid,batchid).subscribe({
+    next: (response: any) => 
+      {
+         
+        this.Liveclasshistroy = response.result;
+        
+    },error: (error: any) => {
+     }
+
+  })
+}
+
+convertToIST(dateStr: string): Date {
+  if (!dateStr) return new Date();
+
+  const utcDate = new Date(dateStr + 'Z'); // force UTC
+  return new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+}
+
+getsecondsorminutes(seconds: number): string {
+  if (!seconds) return '';
+
+  if (seconds < 60) {
+    return seconds + ' sec';
+  }
+
+  const mins = Math.floor(seconds / 60);
+  return mins + ' min';
+}
+
+getAttendanceText(cls: any): string {
+  const attended = cls.AttendedDuration || 0;
+  const total = (cls.Duration || 0) * 60; // convert mins → sec
+
+  if (attended === 0) return   'Not Attended';
+
+  const percent = (attended / total) * 100;
+
+  if (percent >= 80) return 'Attended';
+  if (percent >= 30) return 'Partially Attended';
+  if (attended < 300) return 'Joined briefly'; // <5 min
+
+  return 'Partially Attended';
+}
+getAttendanceClass(cls: any): string {
+  const attended = cls.AttendedDuration || 0;
+  const total = (cls.Duration || 0) * 60;
+
+  if (attended === 0)
+    return 'px-2 py-1 rounded-full bg-red-100 text-red-600';
+
+  const percent = (attended / total) * 100;
+
+  if (percent >= 80)
+    return 'px-2 py-1 rounded-full bg-green-100 text-green-700';
+
+  if (percent >= 30)
+    return 'px-2 py-1 rounded-full bg-yellow-100 text-yellow-700';
+
+  return 'px-2 py-1 rounded-full bg-gray-100 text-gray-600';
+}
 
 }

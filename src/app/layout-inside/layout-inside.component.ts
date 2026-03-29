@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debug } from 'console';
 
 @Component({
@@ -16,7 +17,7 @@ sidebarOpen = false;
   { name: 'Courses', icon: 'book', route: '/app/courses' },
   { name: 'My Courses', icon: 'users', route: '/app/mycourses' },
   { name: 'Payments', icon: 'credit-card', route: '/app/payments' },
-  { name: 'Tests', icon: 'clipboard-check', route: '/app/quiz' },
+  { name: 'Exam Center', icon: 'clipboard-check', route: '/app/quiz' },
   // { name: 'Settings', icon: 'cog', route: '/settings' }
 ];
 
@@ -56,7 +57,7 @@ window.location.href = '/login'; // Redirect to login page
 
 
 
- constructor() {
+ constructor(private router:Router ) {
     console.log('LayoutInsideComponent: constructor');
   }
  
@@ -68,10 +69,12 @@ window.location.href = '/login'; // Redirect to login page
   ngOnDestroy(): void {
     console.log('LayoutInsideComponent: ngOnDestroy');
   }
-
-
-
-
+editProfile(): void {
+  this.router.navigate(['/editprofile'], {
+    queryParams: { Type: 'Edit' }
+  });
+  this.dropdownOpen = false;
+}
 
 
 }

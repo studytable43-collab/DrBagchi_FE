@@ -17,12 +17,12 @@
           </div>
         </div>
 
-        <button *ngIf="ann.liveSessionId"
-                (click)="JoinLiveSession(ann)"
-                class="w-full sm:w-auto bg-red-600 text-white text-xs font-semibold
-                       px-4 py-2 rounded-md hover:bg-red-700 transition">
-          Join Live
-        </button>
+    <button *ngIf="ann.liveSessionId"
+        (click)="JoinLiveSession(ann)"
+        class="w-full sm:w-auto bg-green-600 text-white text-xs font-semibold
+               px-4 py-2 rounded-md hover:bg-green-700 transition">
+  Join Live
+</button>
 
       </div>
 
@@ -117,21 +117,21 @@
           </button>
 
           <h1 class="text-lg sm:text-2xl font-bold text-gray-900 leading-snug">
-            {{ selectedCourse.title }}
+            {{ selectedCourse.CourseName }}
           </h1>
 
         </div>
 
-        <button *ngIf="selectedCourse.live?.isLive"
+        <!-- <button *ngIf="selectedCourse.live?.isLive"
                 class="w-full sm:w-auto bg-red-600 text-white text-sm
                        px-4 py-2 rounded-md hover:bg-red-700 transition">
           Join Live
-        </button>
+        </button> -->
 
       </div>
 
       <!-- Progress -->
-      <div class="space-y-2">
+      <!-- <div class="space-y-2">
         <div class="flex justify-between text-sm text-gray-600">
           <span>Progress</span>
           <span>{{ selectedCourse.percent }}%</span>
@@ -142,7 +142,7 @@
                [style.width.%]="selectedCourse.percent">
           </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -150,7 +150,7 @@
     <div class="border-b border-gray-200 mt-6 overflow-x-auto">
       <div class="flex gap-6 sm:gap-8 min-w-max px-1">
 
-        <button *ngFor="let tab of ['chapters','live','quiz','notes','progress']"
+        <button *ngFor="let tab of ['chapters','live','quiz','notes']"
                 (click)="activeTab = tab"
                 class="pb-3 text-sm font-semibold whitespace-nowrap
                        transition cursor-pointer"
@@ -240,23 +240,89 @@
       </ng-container>
 
       <!-- ===== LIVE TAB ===== -->
-      <ng-container *ngIf="activeTab === 'live'">
-        <div class="text-sm text-gray-700">
-          Attendance history and upcoming sessions should be dynamic.
-        </div>
-      </ng-container>
+     <ng-container *ngIf="activeTab === 'live'">
+
+  <div *ngIf="Liveclasshistroy?.length" class="space-y-2">
+
+  <div *ngFor="let cls of Liveclasshistroy"
+       class="bg-white border border-gray-200 rounded-md px-4 py-3 
+              flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:bg-gray-50 transition">
+
+    <!-- LEFT -->
+    <div class="flex flex-col text-sm">
+
+      <!-- LINE 1 -->
+      <div class="font-medium text-gray-900">
+        {{ cls.Topic || 'No Topic' }}
+      </div>
+
+      <!-- LINE 2 -->
+      <div class="text-xs text-gray-600 flex flex-wrap items-center gap-x-3 gap-y-1">
+
+        <span>{{ cls.TeacherName }}</span>
+
+        <span>
+          {{ convertToIST(cls.Starttime) | date:'dd MMM' }}
+        </span>
+
+        <span>
+          {{ convertToIST(cls.Starttime) | date:'shortTime' }} - 
+          {{ convertToIST(cls.EndTime) | date:'shortTime' }}
+        </span>
+
+        <span>{{ cls.Duration }} min</span>
+
+        <span *ngIf="cls.BatchId">
+          Batch {{ cls.BatchId }}
+        </span>
+
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex items-center gap-2 text-xs">
+
+      <!-- Attendance -->
+      <!-- <span *ngIf="cls.AttendedDuration; else notAttended"
+            class="px-2 py-1 rounded-full bg-green-100 text-green-700">
+        {{ getsecondsorminutes(cls.AttendedDuration) }}
+      </span> -->
+
+      <span *ngIf="cls.AttendedDuration; else notAttended"
+      [ngClass]="getAttendanceClass(cls)">
+  {{ getAttendanceText(cls) }}
+</span>
+      <ng-template #notAttended>
+        <span class="px-2 py-1 rounded-full bg-red-100 text-red-600">
+          Not Attended
+        </span>
+      </ng-template>
+
+      <!-- Class Type -->
+      <span class="px-2 py-1 rounded-full bg-purple-100 text-purple-700">
+        {{ cls.ClassType }}
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+</ng-container>
 
       <!-- ===== QUIZ TAB ===== -->
       <ng-container *ngIf="activeTab === 'quiz'">
         <div class="text-sm text-gray-700">
-          Quiz performance analytics should be displayed here.
+          <!-- Quiz performance analytics should be displayed here. -->
+            Coming Soon
         </div>
       </ng-container>
 
       <!-- ===== NOTES TAB ===== -->
       <ng-container *ngIf="activeTab === 'notes'">
         <div class="text-sm text-gray-700">
-          Lecture notes list here.
+          <!-- Lecture notes list here. -->
+            Coming Soon
         </div>
       </ng-container>
 

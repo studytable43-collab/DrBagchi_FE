@@ -2,8 +2,24 @@
 
   <div class="max-w-5xl mx-auto bg-white border border-gray-200 rounded-lg p-8 md:p-12">
 
+    <div  (click)="goBack()"  *ngIf="IsEditing"
+  
+  class="inline-flex items-center gap-2 cursor-pointer text-sm font-medium text-purple-700 hover:text-purple-900 transition"
+>
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+  </svg>
+  Back
+</div>
     <!-- Heading -->
-    <div class="text-center mb-12">
+    <div class="text-center mb-12" *ngIf="IsEditing">
+      <h2 class="text-3xl font-bold text-gray-900">
+       Update Your Student Account
+      </h2> 
+    </div>
+
+
+     <div class="text-center mb-12" *ngIf="!IsEditing">
       <h2 class="text-3xl font-bold text-gray-900">
         Create Your Student Account
       </h2>
@@ -11,6 +27,7 @@
         Fill in the details below to get started.
       </p>
     </div>
+
 
     <form [formGroup]="signupForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -32,9 +49,11 @@
       <!-- Email -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-        <input type="email" formControlName="email"
-               class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
-        <span class="text-xs text-red-600" *ngIf="errorMessages['email']">
+    <input type="email" formControlName="email"
+  class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm 
+         focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition
+         disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed">
+               <span class="text-xs text-red-600" *ngIf="errorMessages['email']">
           {{ errorMessages['email'] }}
         </span>
       </div>
@@ -42,8 +61,10 @@
       <!-- Mobile -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-        <input type="tel" maxlength="10" formControlName="mobile"
-               class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+    <input type="tel" maxlength="10" formControlName="mobile"
+  class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm 
+         focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition
+         disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed">    
         <span class="text-xs text-red-600" *ngIf="errorMessages['mobile']">
           {{ errorMessages['mobile'] }}
         </span>
@@ -89,7 +110,10 @@
 
       <!-- Profile Picture -->
       <div class="md:col-span-2">
-        <label class="block text-sm font-medium text-gray-700 mb-3">Profile Picture</label>
+        <label class="block text-sm font-medium text-gray-700 mb-3">Profile Picture
+              <span class="text-gray-400 text-xs">(Optional)</span>
+
+        </label>
         <div class="flex items-center gap-6">
           <div class="relative w-32 h-32">
             <input type="file" id="profileImage"
@@ -179,7 +203,11 @@
         <label class="block text-sm font-medium text-gray-700 mb-2">Institution</label>
         <input type="text" formControlName="institution"
                class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
-      </div>
+     
+               <span class="text-xs text-red-600" *ngIf="errorMessages['institution']">
+          {{ errorMessages['institution'] }}
+        </span>
+              </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Board</label>
@@ -191,6 +219,10 @@
             {{ b.BoardName }}
           </option>
         </select>
+        <span class="text-xs text-red-600" *ngIf="errorMessages['board']">
+          {{ errorMessages['board'] }}
+        </span>
+
       </div>
 
       <!-- ================= Course Details ================= -->
@@ -208,19 +240,31 @@
             {{ c.ClassName }}
           </option>
         </select>
-      </div>
+        <span class="text-xs text-red-600" *ngIf="errorMessages['class']">
+          {{ errorMessages['class'] }}
+        </span>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-        <select formControlName="subject"
-                class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
-          <option value="">Select</option>
-          <option *ngFor="let sub of availableSubjects" [value]="sub.SubjectId">
-            {{ sub.SubjectName }}
-          </option>
-        </select>
       </div>
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
 
+  <select formControlName="subject"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm
+                 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition
+                 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-200 disabled:cursor-not-allowed disabled:opacity-80">
+
+    <option value="">Select</option>
+
+    <option *ngFor="let sub of availableSubjects" [ngValue]="sub.SubjectId">
+      {{ sub.SubjectName }}
+    </option>
+
+  </select>
+
+  <span class="text-xs text-red-600" *ngIf="errorMessages['subject']">
+    {{ errorMessages['subject'] }}
+  </span>
+</div>
       <!-- ================= Login Details ================= -->
       <div class="md:col-span-2 border-b border-gray-200 pb-3 mt-8">
         <h3 class="text-lg font-semibold text-gray-900">Login Details</h3>
@@ -230,13 +274,21 @@
         <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
         <input type="password" formControlName="password"
                class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
-      </div>
+      
+      <span class="text-xs text-red-600" *ngIf="errorMessages['password']">
+          {{ errorMessages['password'] }}
+        </span>
+
+              </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
         <input type="password" formControlName="confirmPassword"
                class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
-      </div>
+      <span class="text-xs text-red-600" *ngIf="errorMessages['confirmPassword']">
+          {{ errorMessages['confirmPassword'] }}
+        </span>
+              </div>
 
       <!-- Terms -->
       <div class="md:col-span-2 mt-6">
@@ -244,7 +296,7 @@
           <input type="checkbox" formControlName="terms" class="mr-2">
           <label class="text-sm text-gray-600">
             I agree to the
-            <a href="#" class="text-purple-700 hover:underline font-medium">
+            <a href="/termsandconditions" class="text-purple-700 hover:underline font-medium">
               Terms & Conditions
             </a>
           </label>
@@ -252,7 +304,7 @@
       </div>
 
       <!-- Submit -->
-      <div class="md:col-span-2 text-center mt-8">
+      <div class="md:col-span-2 text-center mt-8" *ngIf="!IsEditing">
         <span class="text-sm text-red-600 block mb-3" *ngIf="errorMessages['form']">
           {{ errorMessages['form'] }}
         </span>
@@ -272,7 +324,28 @@
         </p>
       </div>
 
+
+        <div class="md:col-span-2 text-center mt-8" *ngIf="IsEditing">
+        <span class="text-sm text-red-600 block mb-3" *ngIf="errorMessages['form']">
+          {{ errorMessages['form'] }}
+        </span>
+
+        <button type="submit"
+                (click)="SubmitSignUp()"
+                class="w-full md:w-2/3 bg-purple-700 text-white py-3 rounded-md font-semibold hover:bg-purple-800 transition duration-200">
+          Update
+        </button>
+
+        
+      </div>
+
     </form>
 
+  </div>
+</div>
+<div *ngIf="isLoading" class="bagchi-loader-overlay">
+  <div class="bagchi-loader-card">
+    <div class="bagchi-spinner"></div>
+    <div class="bagchi-loading-text">Please wait…</div>
   </div>
 </div>

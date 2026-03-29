@@ -10,13 +10,13 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { InsideLayoutComponent } from './layouts/inside-layout/inside-layout.component';
 import { OutsideLayoutComponent } from './layouts/outside-layout/outside-layout.component';
 import { LayoutInsideComponent } from './layout-inside/layout-inside.component';
-import { AssessmentComponent } from './assessment/assessment.component';
-import { QuizComponent } from './quiz/quiz.component';
+ import { QuizComponent } from './quiz/quiz.component';
 import { OTPComponent } from './otp/otp.component';
 import { ClassroomComponent } from './classroom/classroom.component';
 import { StudentLiveClassWebrtcComponent } from './student-live-class-webrtc/student-live-class-webrtc.component';
 import { CommonModule } from '@angular/common';
 import { SubmittedquizComponent } from './submittedquiz/submittedquiz.component';
+import { AssessmentComponent } from './assessment/assessment.component';
 const routes: Routes = 
 [
    // Assessment without layout (full screen)
@@ -31,7 +31,7 @@ const routes: Routes =
  { path: 'studentclass', component: StudentLiveClassWebrtcComponent },
   { path: 'submittedquiz', component: SubmittedquizComponent },
 
-
+      {path:'editprofile',component:SignUpComponent},
 
    {
     path: '',

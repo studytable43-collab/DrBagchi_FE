@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StudentserviceService } from '../studentservice.service';
 import { CoursesService } from '../courses.service';
+import { MyCoursesService } from '../my-courses.service';
  
 @Component({
   selector: 'app-dashbaord',
@@ -11,9 +12,10 @@ import { CoursesService } from '../courses.service';
 export class DashbaordComponent
  {
 
-  constructor(private studentservice:StudentserviceService,private coursesservice:CoursesService)
+  constructor(private studentservice:StudentserviceService,private coursesservice:CoursesService,private mycourses:MyCoursesService)
   {
-    this.GetDashboard()
+    this.GetDashboard();
+    this.GetOngoingClass()
   }
   user = {
     name: 'Student Name',
@@ -125,5 +127,36 @@ getAllCourses() {
     }
   });
 }
+
+Ongoingcourse:any
+GetOngoingClass()
+{
+  this.mycourses.GetOngoingClass().subscribe({
+    next: (response: any) => 
+      {
+        this.Ongoingcourse = response.result;
+     },error: (error: any) => {
+      console.error('Error fetching ongoing class:', error);
+    }
+
+  })
+}
+
+
+JoinLiveSession(data: any) 
+{
+   
+  //localStorage.setItem('cdn',data.HlsPlaybackUrl);
+  const params = new URLSearchParams({
+    CourseId: data.courseId,
+    BatchId: data.batchId,
+    ChatroomId:   data.chatroom_id,
+     type: 'resume',
+  }).toString();
+
+  window.open(`/studentclass?${params}`, '_blank');
+}
+
+
 
 }

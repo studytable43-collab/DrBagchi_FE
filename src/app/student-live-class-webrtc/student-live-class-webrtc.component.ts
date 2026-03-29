@@ -223,7 +223,7 @@ this.room.on(RoomEvent.Disconnected, () => {
         const hasSrc = !!(el.srcObject || el.currentSrc);
         console.log('🔍 Post-join video check, element src?', hasSrc, el);
         if (!hasSrc) {
-          alert('Video track subscribed but element source is empty. Check logs for details.');
+          //alert('Video track subscribed but element source is empty. Check logs for details.');
         }
       }
     }, 5000);
@@ -994,7 +994,7 @@ startHeartbeat() {
     console.warn('⚠️ Missing data for heartbeat');
     return;
   }
-   
+    
 
   console.log('💓 Starting heartbeat (every 15s)...');
 

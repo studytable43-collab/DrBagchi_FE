@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginSignUpService } from '../login-sign-up.service';
 import { response } from 'express';
  import { ToastrService } from 'ngx-toastr';
 import { debug } from 'console';
+import { MyCoursesService } from '../my-courses.service';
 
  @Component({
   selector: 'app-sign-up',
@@ -35,7 +36,7 @@ UploadFile:any
   'EWS',
   'PWD'
 ];
-
+isLoading:boolean= false;
 
 
 states: string[] = [
@@ -48,7 +49,7 @@ states: string[] = [
   'Ladakh', 'Puducherry'
 ];
 
-  constructor(private fb: FormBuilder,private toastr: ToastrService,  private loginsignupservice: LoginSignUpService,  private router: Router  ) 
+  constructor(private route: ActivatedRoute,private fb: FormBuilder,private toastr: ToastrService,  private loginsignupservice: LoginSignUpService,  private router: Router,private mycourse:MyCoursesService  ) 
   {
     this.getAvailableBoards();
     this.getAvailableClasses();
@@ -70,13 +71,33 @@ states: string[] = [
       institution: ['', Validators.required],
       board: ['', Validators.required],
       class: ['', Validators.required],
-      subject: ['', Validators.required],
+      subject: ['10', Validators.required],
       batch: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       terms: [true, Validators.requiredTrue],
       profileImage: new FormControl(null, Validators.required)
     });
+  
+    this.signupForm.get('subject')?.disable();
+   this.route.queryParams.subscribe(params => {
+    const type = params['Type'];
+    if(type == 'Edit')
+    {
+      this.IsEditing = true;
+      this.getStudentDetails();
+
+          this.signupForm.get('email')?.disable();
+              this.signupForm.get('mobile')?.disable();
+
+
+
+    }else{
+      this.IsEditing = false;
+    }
+   });
+
+
   }
 
    showToast(type: 'success' | 'error' | 'warning' | 'info', message: string, title: string) {
@@ -193,7 +214,8 @@ states: string[] = [
           next: (response: any) =>
              {
               this.availableSubjects =response.result
-              console.log(response);         
+              this.signupForm.get('subject')?.setValue(10);
+                   
               this.getAvailableBatches();
           },
           error: (error: any) => {             
@@ -256,9 +278,7 @@ localStorage.removeItem('registeredemail');
 localStorage.removeItem('registeredmobile');
 localStorage.removeItem('registeredname');
 localStorage.removeItem('studentid');
-
  
-
     this.errorMessages['form'] = '';
   const validationResult = this.ValidateFormFields();
   if (validationResult === 1) 
@@ -296,8 +316,7 @@ localStorage.removeItem('studentid');
   if (this.UploadFile instanceof File)
      {
     formData.append('profileImage', this.UploadFile);
-    debugger  // new file
-  } else {
+   } else {
     formData.append('oldProfileImage', this.OldselectedFile); // add matching param in backend
   }
 } else {
@@ -311,9 +330,17 @@ try
 this.loginsignupservice.SubmitSignUp(formData).subscribe({
 next:(response:any)=>
 {
-  debugger
+   
    if (response.status == 200) 
     {
+   
+      if(response.result> 0 && this.IsEditing)
+      {
+        alert("Your account has been updated");
+        window.location.reload();
+        return;
+      }
+
       if(response.result> 0)
       {
         localStorage.setItem('signupsuccess','1');
@@ -364,7 +391,7 @@ verifyEmail(email: string): boolean {
 
 ValidateFormFields(): number 
 {
-  debugger
+   
   let form = this.signupForm;
   this.errorMessages = {}; // reset previous errors
   let hasError = 0;
@@ -487,6 +514,7 @@ ValidateFormFields(): number
   // }
 
   // Password
+  debugger
   if (form.get('password')?.value === '' || form.get('password')?.value === null || form.get('password')?.value === undefined) {
     this.errorMessages['password'] = "Password is Required";
     hasError = 1;
@@ -518,8 +546,72 @@ ValidateFormFields(): number
 
 
 
+getStudentDetails(): void {
+  this.isLoading = true;
+  this.mycourse.GetStudentDetails().subscribe({
+    next: (response: any) => {
+      console.log(response);
+      this.getAvailableClasses();
+      this.getAvailableSubjects();
+
+        setTimeout(()=>{
+  this.populatestudentdata(response?.result);
+  this.isLoading = false;
+        },2500)
+
+   
+    },
+    error: (error: any) => {
+      console.error(error);
+    }
+  });
+}
 
 
+
+ populatestudentdata(data: any): void { 
+
+  this.signupForm.patchValue({
+    fullName: data.FullName || '',
+    email: data.Email || '',
+    mobile: data.Phone || '',
+    gender: data.Gender || '',
+    dob: data.DateOfBirth || '',
+    caste: data.Student_Cast || '',
+    parentName: data.ParentName || '',
+    parentMobile: data.ParentMobile || '',
+    address: data.Address || '',
+    city: data.City || '',
+    state: data.State || '',
+    pincode: data.Pincode || '',
+    institution: data.InstitutionId || '',
+    board: data.BoardId || '', 
+    class: data.ClassId?  Number(data.ClassId) : '',
+    subject: 10,
+    batch: data.BatchId || '',
+    password: data.Password || '',
+    confirmPassword: data.Password || '', // optional
+    terms: true
+  });
+
+  // Handle Image separately 👇
+  if (data.ImageName) {
+    this.profileImagePreview = `${data.ImageName}`;
+  } else {
+    this.profileImagePreview = 'assets/default-avatar.png';
+  }
+
+}
+ 
+
+ 
+
+
+ goBack()
+ {
+   
+  this.router.navigate(['app/dashboard']);
+ }
 
 
 

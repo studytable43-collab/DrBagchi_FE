@@ -10,6 +10,7 @@ import { InsideCourseDetailsComponent } from '../../inside-course-details/inside
 import { MyCoursesComponent } from '../../my-courses/my-courses.component';
 import { QuizComponent } from '../../quiz/quiz.component';
 import { PaymentsComponent } from '../../payments/payments.component';
+import { SignUpComponent } from '../../sign-up/sign-up.component';
  
 // inside-routing.module.ts
 // inside-routing.module.ts
@@ -24,7 +25,10 @@ const routes: Routes = [
       {path:'course-details',component:InsideCourseDetailsComponent},
       {path:'mycourses',component:MyCoursesComponent},
       {path:'quiz',component:QuizComponent},
-     {path:'payments',component:PaymentsComponent}
+     {path:'payments',component:PaymentsComponent},
+
+    
+
       // Add other inside routes here
     ]
   }

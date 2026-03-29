@@ -151,4 +151,40 @@ getMessages(roomName: string, pageSize: number, lastMessageId?: number) {
   }
 
 
+
+  GetStudentDetails()
+  {
+  const token = localStorage.getItem('token'); // Or wherever you store your token
+ 
+const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  }); 
+  const unique = Math.random();  
+  return this.http.get<any[]>( `${this.baseurl}api/GetStudentDetails?_=${unique}`,{
+
+          headers,withCredentials: false,
+
+    }
+  );
+  }
+
+
+  GetClassesConductedHistory(CourseId:any,BatchId:any)
+  {
+      const token = localStorage.getItem('token'); // Or wherever you store your token
+ 
+    let params = new HttpParams().set('CourseId',CourseId).set('BatchId',BatchId);
+
+const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  }); 
+  const unique = Math.random();  
+  return this.http.get<any[]>( `${this.baseurl}api/GetClassesConductedHistory?_=${unique}`,{
+          params:params,
+          headers,withCredentials: false,
+
+    }
+  );
+  }
+
 }
