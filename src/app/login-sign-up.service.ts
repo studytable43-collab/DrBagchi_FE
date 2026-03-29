@@ -39,36 +39,24 @@ getCourses( )
 
 }
 
-getAvailableBoards() 
-{
-  const token = localStorage.getItem('token'); // Or wherever you store your token
+getAvailableBoards() {
+  const unique = Math.random();
 
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  });
-
-
-  const unique = Math.random(); // or crypto.randomUUID() if supported
-  return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableBoards?_=${unique}`, {
-    headers,withCredentials: false
-  });
+  return this.http.get<any>(
+    `${this.baseurl}api/guest/GetAvailableBoards?_=${unique}`,
+    { withCredentials: false }
+  );
 }
 
 
-getAvailableClasses() 
-{
-  
-  const token = localStorage.getItem('token'); // Or wherever you store your token
+getAvailableClasses() {
+  const unique = Math.random();
 
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  });
-  const unique = Math.random(); // or crypto.randomUUID() if supported
-  return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableClasses?_=${unique}`, {
-    headers,withCredentials: false
-  });
+  return this.http.get<any>(
+    `${this.baseurl}api/guest/GetAvailableClasses?_=${unique}`,
+    { withCredentials: false }
+  );
 }
-
 getAvailableSubjects(ClassId:any)
 {
    
