@@ -34,7 +34,7 @@ getCourses( )
     
 //     return this.http.get<any>(`${this.baseurl}api/GetPatientsorReports`, {
 //      params, headers: headers,
-//       withCredentials: true
+//       withCredentials: false
 //     });
 
 }
@@ -50,7 +50,7 @@ getAvailableBoards()
 
   const unique = Math.random(); // or crypto.randomUUID() if supported
   return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableBoards?_=${unique}`, {
-    headers,withCredentials: true
+    headers,withCredentials: false
   });
 }
 
@@ -65,7 +65,7 @@ getAvailableClasses()
   });
   const unique = Math.random(); // or crypto.randomUUID() if supported
   return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableClasses?_=${unique}`, {
-    headers,withCredentials: true
+    headers,withCredentials: false
   });
 }
 
@@ -79,7 +79,7 @@ let params = new HttpParams()
   return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableSubjects?_=${unique}`, 
     {
       params:params,
-    withCredentials: true
+    withCredentials: false
     }); 
 }
 
@@ -95,7 +95,7 @@ let params = new HttpParams()
   return this.http.get<any>(`${this.baseurl}api/guest/GetAvailableBatches?_=${unique}`, 
     {
       params:params,
-    withCredentials: true
+    withCredentials: false
   }); 
 }
 
@@ -122,7 +122,7 @@ const headers = new HttpHeaders({
 
   const unique = Math.random(); 
   return this.http.post<any>(`${this.baseurl}api/guest/SubmitSignup?_=${unique}`,formData,{
-    withCredentials :true
+    withCredentials :false
 
   })
 }
@@ -155,7 +155,7 @@ submitOTP(mobile: string, purpose: string, otp: string) {
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   );
 }
@@ -171,7 +171,7 @@ SendOTP(mobile: any, purpose: string, otp: string)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   );
   
@@ -188,7 +188,7 @@ SendEmailOTP(Email: any, purpose: string, otp: string)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   );
 
@@ -206,7 +206,7 @@ CheckMobileExist(mobile:any)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   ); 
 }
@@ -222,7 +222,7 @@ checkEmailExist(Email:any)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   ); 
 }
@@ -237,7 +237,7 @@ ResetPassword(mobile:any, newpassword:any)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   );  
 }
@@ -254,7 +254,7 @@ VerifyEmailOTP(Email: any, purpose: string, otp: string)
     null,
     {
       params: params,
-      withCredentials: true
+      withCredentials: false
     }
   );
 }
