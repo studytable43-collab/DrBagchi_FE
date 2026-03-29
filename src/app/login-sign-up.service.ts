@@ -57,6 +57,7 @@ getAvailableClasses() {
     { withCredentials: false }
   );
 }
+
 getAvailableSubjects(ClassId:any)
 {
    
@@ -87,32 +88,24 @@ let params = new HttpParams()
   }); 
 }
 
+SubmitSignUp(formData: any) {
 
-SubmitSignUp(formData:any)
-{
+  const token = localStorage.getItem('token');
+  const unique = Math.random();
 
+  let options: any = { withCredentials: false };
 
-    const token = localStorage.getItem('token'); // Or wherever you store your token
+  if (token && token !== 'null' && token !== 'undefined') {
+    options.headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
 
-    if(!token)
-    {
-const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  }); 
-  const unique = Math.random(); 
-  return this.http.post<any>(`${this.baseurl}api/guest/SubmitSignup?_=${unique}`,formData,{
- headers,   withCredentials :false
-   })
- 
-    }
-
-
-
-  const unique = Math.random(); 
-  return this.http.post<any>(`${this.baseurl}api/guest/SubmitSignup?_=${unique}`,formData,{
-    withCredentials :false
-
-  })
+  return this.http.post<any>(
+    `${this.baseurl}api/guest/SubmitSignup?_=${unique}`,
+    formData,
+    options
+  );
 }
 
 
