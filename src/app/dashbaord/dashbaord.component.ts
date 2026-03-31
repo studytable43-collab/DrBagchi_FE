@@ -101,6 +101,7 @@ getAllCourses() {
     next: (response: any) =>
      {
       let courses = response.result;
+      debugger
        
       const enrolledIds = new Set(this.Dashboarddata.enrollments.map((e: any) => e.courseId));
 
@@ -119,8 +120,7 @@ getAllCourses() {
           }
 
 
- 
-      console.log(response);
+  
     },
     error: (error: any) => {
       console.error('API Error:', error);

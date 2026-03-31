@@ -97,9 +97,10 @@
 
           <div class="flex-1">
             <h3 class="text-lg font-semibold text-gray-900">{{ c.CourseName }}</h3>
-
-             <div class="text-sm text-gray-600 mt-1">
-              {{ c?.shortDescription  }}  
+            <div class="text-sm text-gray-600 mt-1">
+              {{ c?.shortDescription?.length > 80 
+                  ? (c.shortDescription | slice:0:80)  + '...' 
+                  : c.shortDescription }}
             </div>
 
           </div>
