@@ -829,8 +829,11 @@ async toggleMic()
   };
 
   if (isMobile) {
-    // Prefer the dedicated mobile video element. If not present, try the desktop screen video.
-    const video = this.teacherScreenMobile?.nativeElement || this.teacherScreen?.nativeElement;
+    // Use the currently visible main video based on pin state
+    const video: HTMLVideoElement | null =
+      this.pinnedSource === 'camera'
+        ? (this.teacherCameraMobile?.nativeElement || this.teacherCamera?.nativeElement)
+        : (this.teacherScreenMobile?.nativeElement || this.teacherScreen?.nativeElement);
 
     if (video && (video as any).isConnected) {
       try {
