@@ -13,21 +13,37 @@
     <!-- MAIN -->
     <div class="live-main">
 
-      <!-- VIDEO -->
+      <!-- VIDEO STAGE -->
       <div class="video-stage">
 
-        <video #teacherScreen
-               autoplay
-               playsinline
-               class="screen-video">
-        </video>
+        <!-- SCREEN SHARE WRAPPER (main by default, PiP when camera is pinned) -->
+        <div class="stream-wrapper screen-stream" [class.pip]="pinnedSource === 'camera'">
+          <video #teacherScreen
+                 autoplay
+                 playsinline
+                 class="stream-video">
+          </video>
+          <button class="stream-pin-btn"
+                  (click)="pinVideo('screen')"
+                  title="{{ pinnedSource === 'camera' ? 'Pin screen to main' : 'Screen is main' }}">
+            {{ pinnedSource === 'camera' ? '📌 Pin Screen' : '📌' }}
+          </button>
+        </div>
 
-        <video #teacherCamera
-               muted
-               autoplay
-               playsinline
-               class="camera-video">
-        </video>
+        <!-- CAMERA WRAPPER (PiP by default, main when camera pinned) -->
+        <div class="stream-wrapper camera-stream" [class.pip]="pinnedSource !== 'camera'">
+          <video #teacherCamera
+                 muted
+                 autoplay
+                 playsinline
+                 class="stream-video">
+          </video>
+          <button class="stream-pin-btn"
+                  (click)="pinVideo('camera')"
+                  title="{{ pinnedSource === 'camera' ? 'Unpin camera' : 'Pin camera to main view' }}">
+            {{ pinnedSource === 'camera' ? '✕ Unpin' : '📌 Pin' }}
+          </button>
+        </div>
 
         <div *ngIf="currentSpeaker" class="speaker-label">
           {{ currentSpeaker }}
@@ -44,18 +60,18 @@
         </div>
 
         <div class="chat-body" #chatContainer>
-          <!-- 🔄 Loading Indicator -->
+          <!-- Loading Indicator -->
           <div *ngIf="isLoadingOlderMessages" class="chat-loading">
             <div class="spinner"></div>
             <span>Loading older messages...</span>
           </div>
 
-          <!-- 🏁 End of Messages Indicator -->
+          <!-- End of Messages Indicator -->
           <div *ngIf="!hasMoreMessages && messages.length > 0" class="chat-end-marker">
             <p>📌 You've reached the beginning of the conversation</p>
           </div>
 
-          <!-- 💬 Messages -->
+          <!-- Messages -->
           <div *ngFor="let msg of messages" class="chat-message">
             <div class="chat-meta">
       {{ msg.SenderName }} • {{ msg.CreatedAt | date:'shortTime' }}
@@ -73,7 +89,7 @@
                    (keydown.enter)="sendMessage()"
                    [disabled]="isSendingMessage"
                    placeholder="Type message..." />
-            <button (click)="sendMessage()" 
+            <button (click)="sendMessage()"
                     [disabled]="isSendingMessage || !chatInput.trim()"
                     class="send-btn">
               <span *ngIf="!isSendingMessage">✓</span>
@@ -82,8 +98,7 @@
           </div>
         </div>
 
-      </div> 
-             
+      </div>
 
     </div>
 
@@ -114,18 +129,32 @@
 
     <div class="mobile-video-wrapper">
 
-      <video #teacherScreenMobile
-             autoplay
-             playsinline
-             class="mobile-video">
-      </video>
+      <!-- SCREEN SHARE WRAPPER (main by default, PiP when camera pinned) -->
+      <div class="mobile-stream-wrapper mobile-screen-stream" [class.pip]="pinnedSource === 'camera'">
+        <video #teacherScreenMobile
+               autoplay
+               playsinline
+               class="mobile-stream-video">
+        </video>
+        <button class="mobile-pin-btn"
+                (click)="pinVideo('screen')">
+          {{ pinnedSource === 'camera' ? '📌 Screen' : '📌' }}
+        </button>
+      </div>
 
-      <video #teacherCameraMobile
-             muted
-             autoplay
-             playsinline
-             class="mobile-camera">
-      </video>
+      <!-- CAMERA WRAPPER (PiP by default, main when camera pinned) -->
+      <div class="mobile-stream-wrapper mobile-camera-stream" [class.pip]="pinnedSource !== 'camera'">
+        <video #teacherCameraMobile
+               muted
+               autoplay
+               playsinline
+               class="mobile-stream-video">
+        </video>
+        <button class="mobile-pin-btn"
+                (click)="pinVideo('camera')">
+          {{ pinnedSource === 'camera' ? '✕' : '📌' }}
+        </button>
+      </div>
 
       <button (click)="toggleFullScreen()"
               class="mobile-fullscreen-btn">
@@ -137,18 +166,18 @@
     <div class="mobile-chat">
 
       <div class="mobile-chat-body">
-        <!-- 🔄 Loading Indicator -->
+        <!-- Loading Indicator -->
         <div *ngIf="isLoadingOlderMessages" class="chat-loading">
           <div class="spinner"></div>
           <span>Loading older messages...</span>
         </div>
 
-        <!-- 🏁 End of Messages Indicator -->
+        <!-- End of Messages Indicator -->
         <div *ngIf="!hasMoreMessages && messages.length > 0" class="chat-end-marker">
           <p>📌 You've reached the beginning</p>
         </div>
 
-        <!-- 💬 Messages -->
+        <!-- Messages -->
         <div *ngFor="let msg of messages" class="chat-message">
           <div class="chat-meta">
             {{ msg.SenderName }} • {{ msg.CreatedAt | date:'shortTime' }}
@@ -166,7 +195,7 @@
                  (keydown.enter)="sendMessage()"
                  [disabled]="isSendingMessage"
                  placeholder="Type message..." />
-          <button (click)="sendMessage()" 
+          <button (click)="sendMessage()"
                   [disabled]="isSendingMessage || !chatInput.trim()"
                   class="send-btn">
             <span *ngIf="!isSendingMessage">✓</span>

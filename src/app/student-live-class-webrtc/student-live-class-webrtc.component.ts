@@ -20,6 +20,8 @@ export class StudentLiveClassWebrtcComponent {
   // Keep a reference to the screen-share track so we can create a fallback
   // fullscreen video element if the template video is not yet connected.
   screenShareTrack: any = null;
+  cameraTrack: any = null;
+  pinnedSource: 'screen' | 'camera' | null = null;
 
   @ViewChild('teacherScreen', { static: true })
   teacherScreen!: ElementRef<HTMLVideoElement>;
@@ -29,6 +31,9 @@ export class StudentLiveClassWebrtcComponent {
 
   @ViewChild('teacherScreenMobile', { static: false })
   teacherScreenMobile!: ElementRef<HTMLVideoElement>;
+
+  @ViewChild('teacherCameraMobile', { static: false })
+  teacherCameraMobile!: ElementRef<HTMLVideoElement>;
 
   @HostListener('window:beforeunload')
   onBeforeUnload() {
@@ -165,8 +170,8 @@ ngOnInit() {
     // 2️⃣ Create Room
     console.log('🎬 Creating Room object...');
     this.room = new Room({
-      adaptiveStream: true,
-      dynacast: true
+      adaptiveStream: false,
+      dynacast: false
     });
     console.log('✅ Room created');
 
@@ -422,28 +427,30 @@ private attachTrack(track: any, publication: any) {
     publication.source === Track.Source.Camera
   ) {
     console.log('🎥 Camera track detected, attaching...');
+    this.cameraTrack = track;
 
-    const videoEl = this.teacherCamera?.nativeElement;
-    if (!videoEl) {
-      console.warn('  ⚠️ Teacher camera video element not found');
+    const targets = [
+      this.teacherCamera?.nativeElement,
+      this.teacherCameraMobile?.nativeElement
+    ].filter(Boolean);
+
+    if (targets.length === 0) {
+      console.warn('  ⚠️ No camera video elements found');
       return;
     }
 
-    // 🔥 REQUIRED FOR AUTOPLAY
-    videoEl.muted = true;
-    videoEl.playsInline = true;
-    videoEl.autoplay = true;
-
-    try {
-      track.attach(videoEl);
-      console.log('  ✅ Successfully attached to camera video');
-
-      // 🔥 FORCE PLAY
-      videoEl.play()
-        .then(() => console.log('  ✅ Camera playing'))
-        .catch(err => console.warn('  ⚠️ Camera play blocked', err));
-    } catch (err) {
-      console.error('  ❌ Failed to attach camera:', err);
+    for (const videoEl of targets) {
+      videoEl.muted = true;
+      videoEl.playsInline = true;
+      videoEl.autoplay = true;
+      try {
+        track.attach(videoEl);
+        videoEl.play()
+          .then(() => console.log('  ✅ Camera playing'))
+          .catch((err: any) => console.warn('  ⚠️ Camera play blocked', err));
+      } catch (err) {
+        console.error('  ❌ Failed to attach camera:', err);
+      }
     }
 
     return;
@@ -479,8 +486,8 @@ private watchTrackUnsubscribed() {
   async connectAsStudent(url: string, token: string)
    {
      this.room = new Room({
-    adaptiveStream: true,
-    dynacast: true
+    adaptiveStream: false,
+    dynacast: false
    });
    
     await this.room.connect(url, token, {
@@ -943,6 +950,10 @@ async toggleMic()
 }
 
 
+
+pinVideo(source: 'screen' | 'camera') {
+  this.pinnedSource = this.pinnedSource === source ? null : source;
+}
 
 isMobileView: boolean = false;
 isLandscape: boolean = false;
